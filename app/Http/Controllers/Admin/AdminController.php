@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class AdminController extends Controller
 {
@@ -19,14 +20,22 @@ class AdminController extends Controller
         return view('panel.pages.form');
     }
 
-    function form_store(Request $abc){
-        print_r($abc->all());
-        // $validated = $request->validate([
-        //     'name' => 'required|string|max:100',
-        //     'email' => 'required|email',
-        // ]);
+    public function form_store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6|confirmed',
+        ]);
 
-        // return back()->with('success', 'Form submitted successfully!');
+        User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => $validated['password'],
+            'status' => 1
+        ]);
+
+        return back()->with('success', 'User created successfully!');
     }
 
     public function store(Request $request)
@@ -37,5 +46,10 @@ class AdminController extends Controller
         ]);
 
         return back()->with('success', 'Form submitted successfully!');
+    }
+
+    function user_list(){
+        $users = User::latest()->get();
+        return view('panel.pages.user_list', compact('users'));
     }
 }

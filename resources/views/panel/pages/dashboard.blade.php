@@ -1,5 +1,6 @@
 @extends('panel.layout')
 
+
 @section('content')
     <!--begin::App Content Header-->
     <div class="app-content-header">

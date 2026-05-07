@@ -20,8 +20,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/dashboard', [AdminController::class, 'store'])->name('admin.dashboard.store');
 
     Route::get('/form', [AdminController::class, 'form'])->name('admin.form');
-    Route::get('/form', [AdminController::class, 'form_store'])->name('admin.form.store');
+    Route::POST('/form', [AdminController::class, 'form_store'])->name('admin.form.store');
 
+    Route::get('/user-list', [AdminController::class, 'user_list'])->name('users.index');
 
 
 });
